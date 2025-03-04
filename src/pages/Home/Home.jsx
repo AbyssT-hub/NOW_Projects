@@ -11,7 +11,7 @@ import Footer from "../../layouts/dangKiHP/Footer.jsx";
 import InforUser from "../../layouts/dangKiHP/InforUser.jsx";
 import { useUser } from "../../contexts/UserContext.js";
 function Home() {
-  const { user } = useUser();
+  // const { user } = useUser();
   // console.log("usersssss", user); 
   // console.log("msss", user.mssv); 
   return (
@@ -30,15 +30,15 @@ function Home() {
                   <div className="row">
                     <div className="col-md-6">
                       <p> Khóa: <b>2020 - 2021</b></p>
-                      <p> Bậc đào tạo: <b>{user.mssv}</b></p>
-                      <p> Bậc đào tạo: <b>{user.bacDaoTao}</b></p>
-                      <p> Ngành: <b>{user.tenNganhHoc} </b></p>
-                      <p> Khoa: <b>{user.tenKhoa}</b></p>
+                      <p> Bậc đào tạo:</p>
+                      <p> Bậc đào tạo:</p>
+                      <p> Ngành:</p>
+                      <p> Khoa</p>
                     </div>
                     <div className="col-md-6">
-                      <p> Lớp: <b>{user.tenLopHocDanhNghia}</b></p>
-                      <p> Loại hình đào tạo: <b>{user.loaiHinhDaoTao}</b></p>
-                      <p> Chuyên ngành: <b>{user.tenNganhHoc}</b></p>
+                      <p> Lớp:</p>
+                      <p> Loại hình đào tạo:</p>
+                      <p> Chuyên ngành:</p>
                       <p> Cơ sở: <b>Cơ sở 1 (Thành phố Hồ Chí Minh)</b></p>
                     </div>
                   </div>
