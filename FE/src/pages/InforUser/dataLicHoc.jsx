@@ -1,7 +1,7 @@
 const data = [{
     id: 1,
     name:'Công nghệ phần mềm',
-    time:'15-05-2024',
+    time:'21-04-2025',
     maLop:'DHKTPM16A ',
     maHocPhan:'420300314708',
     tiet:'1-4',
@@ -12,7 +12,7 @@ const data = [{
     id: 2,
     name:'Công nghệ phần mềm2',
     name:'Công nghệ phần mềm',
-    time:'20-05-2024',
+    time:'22-04-2025',
     maLop:'DHKTPM16A ',
     maHocPhan:'420300314708',
     tiet:'1-4',
@@ -22,7 +22,7 @@ const data = [{
 },{
     id: 3,
     name:'Công nghệ phần mềm3',
-    time:'17-05-2024',
+    time:'25-04-2025',
     maLop:'DHKTPM16A ',
     maHocPhan:'420300314708',
     tiet:'1-4',
@@ -32,7 +32,7 @@ const data = [{
 },{
     id: 4,
     name:'Công nghệ phần mềm3',
-    time:'24-05-2024',
+    time:'24-04-2025',
     maLop:'DHKTPM16A ',
     maHocPhan:'420300314708',
     tiet:'1-4',
