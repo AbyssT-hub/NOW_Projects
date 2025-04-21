@@ -301,16 +301,22 @@ function LichHoc() {
 
                                             </div>
                                         </div>
-                                        <div id="viewLichTheoTuan">
-                                            <div className="table-responsive">
+                                        <div id="viewLichTheoTuan" style={{ width: '100%' }}>
+                                            <div className="table-responsive" style={{ width: '100%' }}>
                                                 <table className="fl-table table table-bordered text-center no-footer dtr-inline" width="100%" role="grid">
                                                     <thead>
 
                                                         <tr>
                                                             <th style={{ fontWeight: 'bold', fontSize: '17px' }} lang="lichtheotuan-cahoc">Ca học</th>
-                                                            {weekDates.map((date, index) => (
-                                                                <th style={{ fontWeight: 'bold', fontSize: '17px' }} key={index}> <span lang="lichtheotuan-mon">Thứ {index + 2}</span><br />{formatDate1(date)}</th>
-                                                            ))}
+                                                            {weekDates.map((date, index) => {
+                                                            const thu = index === 6 ? 'Chủ nhật' : `Thứ ${index + 2}`;
+                                                            return (
+                                                                <th style={{ fontWeight: 'bold', fontSize: '17px' }} key={index}>
+                                                                <span lang="lichtheotuan-mon">{thu}</span><br />
+                                                                {formatDate1(date)}
+                                                                </th>
+                                                            );
+                                                            })}
                                                         </tr>
                                                     </thead>
                                                     <tbody>

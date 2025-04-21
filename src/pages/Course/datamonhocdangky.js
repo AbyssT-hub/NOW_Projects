@@ -7,10 +7,10 @@ export const datamonhocdangky = [
         soTC: 4,
         nhomTH: 2,
         hocPhi: 3000000,
-        hanNop: '5/5/2025',
+        hanNop: '5-5-2025',
         thu: 3000000,
         trangThai: 'Thành Công',
-        ngayDK: '1/5/2025',
+        ngayDK: '1-5-2025',
         trangThaiLop: 'Chờ SV Đăng Ký'
     },
     {
@@ -21,10 +21,10 @@ export const datamonhocdangky = [
         soTC: 4,
         nhomTH: 1,
         hocPhi: 2500000,
-        hanNop: '10/5/2025',
+        hanNop: '10-5-2025',
         thu: 2500000,
         trangThai: 'Thành Công',
-        ngayDK: '3/5/2025',
+        ngayDK: '3-5-2025',
         trangThaiLop: 'Chờ SV Đăng Ký'
     },
 
@@ -36,10 +36,10 @@ export const datamonhocdangky = [
         soTC: 4,
         nhomTH: 3,
         hocPhi: 3000000,
-        hanNop: '27/4/2025',
+        hanNop: '27-4-2025',
         thu: 3000000,
         trangThai: 'Thành Công',
-        ngayDK: '20/4/2025',
+        ngayDK: '20-4-2025',
         trangThaiLop: 'Chấp Nhận Mở Lớp'
     }
 
