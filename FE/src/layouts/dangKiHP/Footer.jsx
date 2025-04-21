@@ -6,7 +6,6 @@ import '../../styles/login/css/color-default.css'
 function Footer() {
   return (
     <div id="bottom">
-      {/* Footer */}
       <div className="container">
         <footer>
           <div id="bottom">
@@ -48,7 +47,6 @@ function Footer() {
           </div>
         </footer>
       </div>
-      {/* End Footer */}
     </div>
   );
 }

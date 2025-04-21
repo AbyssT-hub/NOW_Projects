@@ -41,7 +41,7 @@ function Login() {
       // navigate(`${path.ROOT}`);
       // const repons = await axios.get(`http://localhost:8080/api/Student_Service/getStudent?mssv=${tk}&matKhau=${mk}`)
       const repons = await axios.get(`http://localhost:8080/api/Student_Service/getStudent?mssv=${tk}&matKhau=${mk}`)
-      console.log("đăngn ahsdpasd", repons.data);
+      console.log("đăngn ahsdpasd", repons.data); 
       setUser(repons.data)
       localStorage.removeItem('token');
       localStorage.setItem('token', JSON.stringify(repons.data));

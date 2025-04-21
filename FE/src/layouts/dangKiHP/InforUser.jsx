@@ -9,6 +9,7 @@ import "../../styles/home/menu.css";
 import { useNavigate } from "react-router-dom";
 import path from "../../routes/Path.js";
 import { useUser } from '../../contexts/UserContext.js';
+
 function InforUser() {
   const { user } = useUser();
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ function InforUser() {
                     <span className="info-account-span">{user.maLoaiSinhVien}</span>
                   </p>
                   <br />
-
                   <a onClick={() => {
                     localStorage.removeItem("token");
                     navigate(`${path.LOGIN}`);
