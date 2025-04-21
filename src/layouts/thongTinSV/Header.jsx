@@ -48,7 +48,7 @@ function Header() {
                    
                     <a className="user-account-name"  onClick={()=>{
                       setisDropDowName(!isDropDowName)
-                    }}  title>Võ Thị Minh Tiến </a>
+                    }}  title>Phạm Anh Khoa</a>
                     <i className="fa fa-caret-down user-account-name-caret-down" aria-hidden="true" />
                   </div>
                   <div className={`user-account-info dropdown-menu pull-right ${isDropDowName ? 'show' : ''}`}>

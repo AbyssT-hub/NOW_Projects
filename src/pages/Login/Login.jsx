@@ -23,22 +23,34 @@ function Login() {
       return;
     }
   
-    // Dữ liệu người dùng cố định
-    const dummyUser = {
-      mssv: "12345678",
-      matKhau: "123456",
-      hoTen: "Nguyễn Văn A",
-      lop: "KTPM2024",
-    };
-  
-    if (tk === dummyUser.mssv && mk === dummyUser.matKhau) {
-      console.log("Đăng nhập thành công", dummyUser);
-      setUser(dummyUser);
-      localStorage.setItem('token', JSON.stringify(dummyUser));
+    try {
+      // const token = await axios.post('http://localhost:8080/api/Auth_Service/auth/token', {
+      //   // header: {
+      //   //   'Content-Type': 'application/json'
+      //   // },
+      //   mssv: tk,
+      //   matKhau: mk
+      // })    
+      // console.log("token", token.data);
+
+      // const repons = await axios.get(`http://localhost:8080/api/Student_Service/getStudent?mssv=${tk}&matKhau=${mk}`)
+      // console.log("đăngn ahsdpasd", repons.data);
+      // setUser(repons.data)
+      // localStorage.removeItem('token');
+      // localStorage.setItem('token', JSON.stringify(repons.data));
+      // navigate(`${path.ROOT}`);
+      // const repons = await axios.get(`http://localhost:8080/api/Student_Service/getStudent?mssv=${tk}&matKhau=${mk}`)
+      const repons = await axios.get(`http://localhost:8080/api/Student_Service/getStudent?mssv=${tk}&matKhau=${mk}`)
+      console.log("đăngn ahsdpasd", repons.data);
+      setUser(repons.data)
+      localStorage.removeItem('token');
+      localStorage.setItem('token', JSON.stringify(repons.data));
       navigate(`${path.ROOT}`);
-    } else {
-      console.log("Lỗi login");
-      setError("Sai tài khoản hoặc mật khẩu");
+    }
+    catch (err) {
+      console.log("Lỗi login", err);
+      setError("Sai tài khoản hoặc mật khẩu")
+
     }
   }
   
