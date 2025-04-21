@@ -16,7 +16,7 @@ function Footer() {
             >
               <div className="col-sm-6">
                 <div style={{color:'white'}} className="txt-ft">
-                  TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP.HỒ CHÍ MINH
+                  TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP.HỒ CHÍ MINH 
                   <br />
                   Địa chỉ : Số 12 Nguyễn Văn Bảo, Phường 4, Quận Gò Vấp, TP. Hồ
                   Chí Minh

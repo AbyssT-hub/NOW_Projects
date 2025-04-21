@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import print from "../../assets/images/print-w.png";
 import tuyChon from '../../assets/images/ico-delete-min.png'
 import batBuoc from '../../assets/images/ico-select-min.png'
+import { datamonhocdangky } from './datamonhocdangky';
+
 // import { dataMH } from "./data.js";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext.js";
@@ -539,30 +541,52 @@ async function DangKiMonHoc() {
                     </button>
                   </h3>
                   <div className="dangkyhocphantable">
-                    <table
-                      id="lopDaDK"
-                      className="table table-bordered bg-custom responsive text-center"
-                      width="100%"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Thao tác</th>
-                          <th>STT</th>
-                          <th>Mã LHP</th>
-                          <th>Tên môn học</th>
-                          <th>Lớp học dự kiến</th>
-                          <th>Số TC</th>
-                          <th style={{ padding: 0 }}>Nhóm TH</th>
-                          <th>Học phí</th>
-                          <th>Hạn nộp</th>
-                          <th>Thu</th>
-                          <th>Trang thái ĐK</th>
-                          <th>Ngày ĐK</th>
-                          <th>Trang Thái LHP</th>
+                  <table
+                    id="lopDaDK"
+                    className="table table-bordered bg-custom responsive text-center"
+                    width="100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Thao tác</th>
+                        <th>STT</th>
+                        <th>Mã LHP</th>
+                        <th>Tên môn học</th>
+                        <th>Lớp học dự kiến</th>
+                        <th>Số TC</th>
+                        <th style={{ padding: 0 }}>Nhóm TH</th>
+                        <th>Học phí</th>
+                        <th>Hạn nộp</th>
+                        <th>Thu</th>
+                        <th>Trang thái ĐK</th>
+                        <th>Ngày ĐK</th>
+                        <th>Trang Thái LHP</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {datamonhocdangky.map((item, index) => (
+                        <tr key={item.id}>
+                          <td>
+                            {/* Tùy chỉnh button thao tác nếu cần */}
+                            <button className="btn btn-danger btn-sm">Hủy</button>
+                          </td>
+                          <td>{index + 1}</td>
+                          <td>{item.maLHP}</td>
+                          <td>{item.tenMH}</td>
+                          <td>{item.lopHP}</td>
+                          <td>{item.soTC}</td>
+                          <td>{item.nhomTH}</td>
+                          <td>{item.hocPhi.toLocaleString()}₫</td>
+                          <td>{item.hanNop}</td>
+                          <td>{item.thu.toLocaleString()}₫</td>
+                          <td>{item.trangThai}</td>
+                          <td>{item.ngayDK}</td>
+                          <td>{item.trangThaiLop}</td>
                         </tr>
-                      </thead>
-                      <tbody />
-                    </table>
+                      ))}
+                    </tbody>
+                  </table>
+
                   </div>
                 </div>
               </div>
