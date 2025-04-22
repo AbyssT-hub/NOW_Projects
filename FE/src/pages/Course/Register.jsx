@@ -69,7 +69,10 @@ function Register() {
   const [dataMH, setDataMH] = useState([]);
   async function getMonHocCTK() {
     try {
-      const response = await axios.get(`/getMonHocCTK?mssv=${user.mssv}`);
+      // Updated URL to match API Gateway routing
+      const response = await axios.get(`http://localhost:8080/api/DKHP_Service/getMonHocCTK?mssv=${user.mssv}`);
+      // Optional: Use environment variable for base URL
+      // const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getMonHocCTK?mssv=${user.mssv}`);
       setDataMH(response.data);
       setError(null);
     } catch (error) {
@@ -103,7 +106,10 @@ function Register() {
     setSelectedTH("");
     setNhomTH([]);
     try {
-      const response = await axios.get(`/getLopHocPhan?maMonHoc=${item.monHoc.maMonHoc}&kiHoc=${selectedTerm}`);
+      // Updated URL to match API Gateway routing
+      const response = await axios.get(`http://localhost:8080/api/DKHP_Service/getLopHocPhan?maMonHoc=${item.monHoc.maMonHoc}&kiHoc=${selectedTerm}`);
+      // Optional: Use environment variable for base URL
+      // const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getLopHocPhan?maMonHoc=${item.monHoc.maMonHoc}&kiHoc=${selectedTerm}`);
       setLopHocTheoMonHocTheoHocKy(response.data);
       setError(null);
     } catch (error) {
@@ -121,7 +127,10 @@ function Register() {
     setNhomTH([]);
     setSelectedTH("");
     try {
-      const response = await axios.get(`/getGiangVienLopHP?maLopHocPhan=${item.maLopHocPhan}`);
+      // Updated URL to match API Gateway routing
+      const response = await axios.get(`http://localhost:8080/api/DKHP_Service/getGiangVienLopHP?maLopHocPhan=${item.maLopHocPhan}`);
+      // Optional: Use environment variable for base URL
+      // const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getGiangVienLopHP?maLopHocPhan=${item.maLopHocPhan}`);
       setChiTietLopHocPhan(response.data);
       if (response.data?.loaiLichHoc === 'TH') {
         const nhomTH = response.data.lichHocTHList.map(item => item.tenNhomLichHocTH);
@@ -181,7 +190,10 @@ function Register() {
     };
 
     try {
-      const response = await axios.post(`/addBangDiem`, data);
+      // Updated URL to match API Gateway routing
+      const response = await axios.post(`http://localhost:8080/api/DKHP_Service/addBangDiem`, data);
+      // Optional: Use environment variable for base URL
+      // const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/addBangDiem`, data);
       console.log("Đăng ký môn học thành công", response.data);
       getMonHocCTK();
       setChiTietLopHocPhan(null);
