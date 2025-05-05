@@ -55,18 +55,18 @@ function Home() {
                       <thead>
                         <tr>
                           <th>STT</th>
-                          <th>Mã môn học</th>
-                          <th>Tên môn học</th>
-                          <th>Mã học phần</th>
+                          <th>Mã môn học</th> 
+                          <th>Tên môn học</th> 
+                          <th>Mã học phần</th> 
                           <th>
                             <span id="hpFull">Học phần: học trước (a), tiên quyết (b), song hành (c)</span>
                             <span id="hpHide">Học phần</span>
-                          </th>
-                          <th style={{ minWidth: '20px' }}>Số TC/ĐVHT</th>
-                          <th style={{ minWidth: '20px' }}>Số tiết LT</th>
-                          <th style={{ minWidth: '20px' }}>Số tiết TH</th>
-                          <th style={{ minWidth: '30px' }}>Đạt</th>
-                          <th style={{ minWidth: '30px' }}>Đề cương môn học</th>
+                          </th> 
+                          <th style={{ minWidth: '20px' }}>Số TC/ĐVHT</th> 
+                          <th style={{ minWidth: '20px' }}>Số tiết LT</th> 
+                          <th style={{ minWidth: '20px' }}>Số tiết TH</th> 
+                          <th style={{ minWidth: '30px' }}>Đạt</th> 
+                          <th style={{ minWidth: '30px' }}>Đề cương môn học</th> 
                         </tr>
                       </thead>
                       <tbody>
@@ -82,17 +82,17 @@ function Home() {
           </tr>
           {semester.hocPhanBatBuoc.map((hpbb, idx) => (
             <tr key={hpbb.id} className="HocPhanRowCls verify-tr">
-              <td>{idx + 1}</td>
-              <td>{hpbb.maMH}</td>
+              <td>{idx + 1}</td> 
+              <td>{hpbb.maMH}</td> 
               <td className="alignleftcol">{hpbb.tenMH}</td>
-              <td>{hpbb.maHP}</td>
-              <td>{hpbb.hpTienQuyet}</td>
-              <td>{hpbb.soTC}</td>
-              <td>{hpbb.soTietLT}</td>
-              <td>{hpbb.soTietTH}</td>
+              <td>{hpbb.maHP}</td> 
+              <td>{hpbb.hpTienQuyet}</td> 
+              <td>{hpbb.soTC}</td> 
+              <td>{hpbb.soTietLT}</td> 
+              <td>{hpbb.soTietTH}</td> 
               <td><img className="verify" src="/Content/images/ico-select-min.png" alt="Đạt"/></td>
               <td>
-                <button >Xem</button>
+                <button >Xem</button> 
               </td>
             </tr>
           ))}
@@ -108,11 +108,11 @@ function Home() {
               <td>{idx + 1}</td>
               <td>{hptc.maMH}</td>
               <td className="alignleftcol">{hptc.tenMH}</td>
-              <td>{hptc.maHP}</td>
-              <td>{hptc.hpTienQuyet}</td>
-              <td>{hptc.soTC}</td>
-              <td>{hptc.soTietLT}</td>
-              <td>{hptc.soTietTH}</td>
+              <td>{hptc.maHP}</td> 
+              <td>{hptc.hpTienQuyet}</td> 
+              <td>{hptc.soTC}</td> 
+              <td>{hptc.soTietLT}</td> 
+              <td>{hptc.soTietTH}</td> 
               <td><img className="verify" src="/Content/images/ico-select-min.png" alt="Đạt"/></td>
               <td>
                 <button >Xem</button>
