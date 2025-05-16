@@ -5,7 +5,6 @@ import fit.iuh.edu.vn.student_service.entities.SinhVien;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
@@ -17,5 +16,4 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
             " join Khoa k on k.maKhoa = nh.khoa.maKhoa \n" +
             " where sv.mssv = ?1 and sv.matKhau = ?2")
     Optional<LopHocDanhNghia> findByMssvAndMatKhau(long mssv, String matKhau);
-
 }

@@ -41,7 +41,7 @@ public class DataSampleConfig {
         };
     }
 
-    //            @Bean
+                @Bean
     CommandLineRunner initDatabase() {
         return args -> {
             // insert Khoa
@@ -185,9 +185,9 @@ public class DataSampleConfig {
             monHocRepository.save(monLTDT);
             monHocRepository.save(monMMT);
             // insert Sinh vien
-            SinhVien sv1 = new SinhVien(20111311,
+            SinhVien sv1 = new SinhVien(20108521,
                     "123456",
-                    "Nguyễn Tuấn Hiệp",
+                    "Bùi Ngọc Thu",
                     LocalDateTime.of(2002, 9, 14, 0, 0),
                     "121 Quang Trung, Gò vấp ",
                     "Hải Phòng",
@@ -198,29 +198,29 @@ public class DataSampleConfig {
                     loaiSinhVien1,
                     lopHocDanhNghia1
             );
-            SinhVien sv2 = new SinhVien(20111601,
+            SinhVien sv2 = new SinhVien(21082761,
                     "123456",
-                    "Phan Nguyễn Hoài Hiệp",
+                    "Phạm Anh Khoa",
                     LocalDateTime.of(2002, 6, 13, 0, 0),
                     "121 Lê Đức Thọ, Gò Vấp",
                     "Tây Ninh",
                     "0974067552",
                     "Nam",
                     "https://th.bing.com/th/id/OIP.mIf9ZAHku6YCPc4qT14avgHaK0?rs=1&pid=ImgDetMain",
-                    "phhiep999@gmail.com",
+                    "phamanhkhoa999@gmail.com",
                     loaiSinhVien1,
                     lopHocDanhNghia2
             );
-            SinhVien sv3 = new SinhVien(20111999,
+            SinhVien sv3 = new SinhVien(20078481,
                     "123456",
-                    "Phan Xích Long",
+                    "Trương Tuấn Kiệt",
                     LocalDateTime.of(2002, 1, 1, 0, 0),
                     "121 Lê Đức Thọ, Gò Vấp",
                     "Tây Nguyên",
                     "0974067555",
                     "Nam",
                     "https://th.bing.com/th/id/R.06dfda1237b260bd72aa998b6679d0eb?rik=N0Phchug7q3nTg&pid=ImgRaw&r=0",
-                    "phlong999@gmail.com",
+                    "tkiet999@gmail.com",
                     loaiSinhVien1,
                     lopHocDanhNghia3
             );

@@ -1,2 +1,2 @@
 rootProject.name = 'DKHP_BE'
-include('ApiGateway_Service', 'DKHP_Service', 'Student_Service')
+include('ApiGateway_Service', 'DKHP_Service', 'Student_Service', 'Auth_Service')

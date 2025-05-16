@@ -17,4 +17,9 @@ public class GiangVien_DTO {
     private String diaChi;
     private String gioiTinh;
     private LocalDateTime ngaySinh;
+
+    public GiangVien_DTO(long maGiangVien, String tenGiangVien) {
+        this.maGiangVien = maGiangVien;
+        this.tenGiangVien = tenGiangVien;
+    }
 }

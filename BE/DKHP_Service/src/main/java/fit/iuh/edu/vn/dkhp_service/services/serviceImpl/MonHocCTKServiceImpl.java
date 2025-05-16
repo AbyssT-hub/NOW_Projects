@@ -18,4 +18,9 @@ public class MonHocCTKServiceImpl implements MonHocCTKService {
     public List<MonHocChuongTrinhKhung> getMonHocCTKByMssv(long mssv) {
         return monHocChuongTrinhKhungRepository.findMonHocChuongTrinhKhungByMssv(mssv);
     }
+
+    @Override
+    public List<MonHocChuongTrinhKhung> findChuongTrinhKhung(long mssv) {
+        return monHocChuongTrinhKhungRepository.findChuongTrinhKhung(mssv);
+    }
 }
