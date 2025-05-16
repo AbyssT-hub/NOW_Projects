@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MonHocCTKService {
     List<MonHocChuongTrinhKhung> getMonHocCTKByMssv(long mssv);
+
+    List<MonHocChuongTrinhKhung> findChuongTrinhKhung(long mssv);
 }

@@ -4,6 +4,7 @@ package fit.iuh.edu.vn.dkhp_service.controllers;
 import fit.iuh.edu.vn.dkhp_service.dtos.*;
 import fit.iuh.edu.vn.dkhp_service.entities.*;
 import fit.iuh.edu.vn.dkhp_service.repositories.BangDiemRepository;
+import fit.iuh.edu.vn.dkhp_service.repositories.LopHocPhanRepository;
 import fit.iuh.edu.vn.dkhp_service.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class DKHPController {
 
     private final MonHocCTKService monHocCTKService;
     private final LopHocPhanService lopHocPhanService;
     private final GiangVienLopHocPhanService giangVienLopHocPhanService;
     private final BangDiemService bangDiemService;
+    public final BangDiemRepository bangDiemRepository;
+    public final LopHocPhanRepository lopHocPhanRepository;
 
     @GetMapping("/getMonHocCTK")
     private ResponseEntity<List<MonHocCTK_DTO>> getMonHocCTK(@RequestParam long mssv) {
@@ -117,15 +120,27 @@ public class DKHPController {
     private ResponseEntity<GiangVienLopHocPhan_DTO> getGiangVienLopHocPhan(@RequestParam long maLopHocPhan) {
         List<LichHocTH> lichHocTHList = giangVienLopHocPhanService.findGiangVienLopHocPhanByMaLopHP(maLopHocPhan);
         if (lichHocTHList != null) {
+            System.out.println("lich hoc thuc hanh list: " + lichHocTHList);
             List<GiangVienLopHocPhan_DTO> giangVienLopHocPhan_dtoList = new ArrayList<>();
             GiangVien_DTO giangVien_dto = new GiangVien_DTO();
             GiangVienLopHocPhan_DTO giangVienLopHocPhan_dto = new GiangVienLopHocPhan_DTO();
             LichHocTH_DTO lichHocTH_dto = new LichHocTH_DTO();
             String loaiLichHoc = "";
+            List<LichHocTH_DTO> lichHocTHDtoList = new ArrayList<>();
+            for (LichHocTH lichHocTH : lichHocTHList) {
+                lichHocTH_dto = new LichHocTH_DTO(
+                        lichHocTH.getMaLichHocTH(),
+                        lichHocTH.getTenNhomLichHocTH(),
+                        lichHocTH.getViTri(),
+                        lichHocTH.getLichHoc(),
+                        lichHocTH.getGiangVienLopHocPhan().getLopHocPhan().getMaLopHocPhan()
+                );
+                lichHocTHDtoList.add(lichHocTH_dto);
+            }
             for (LichHocTH lichHocTH : lichHocTHList) {
                 switch (lichHocTH.getGiangVienLopHocPhan().getLoaiLichHoc().getValue()) {
-                    case 0 -> loaiLichHoc += "LT";
-                    case 1 -> loaiLichHoc += "TH";
+                    case 0 -> loaiLichHoc = "LT";
+                    case 1 -> loaiLichHoc = "TH";
                 }
                 giangVien_dto = new GiangVien_DTO(
                         lichHocTH.getGiangVienLopHocPhan().getGiangVien().getMaGiangVien(),
@@ -136,20 +151,13 @@ public class DKHPController {
                         lichHocTH.getGiangVienLopHocPhan().getGiangVien().getGioiTinh(),
                         lichHocTH.getGiangVienLopHocPhan().getGiangVien().getNgaySinh()
                 );
-                lichHocTH_dto = new LichHocTH_DTO(
-                        lichHocTH.getMaLichHocTH(),
-                        lichHocTH.getTenNhomLichHocTH(),
-                        lichHocTH.getViTri(),
-                        lichHocTH.getLichHoc(),
-                        lichHocTH.getGiangVienLopHocPhan().getLopHocPhan().getMaLopHocPhan()
-                );
                 giangVienLopHocPhan_dto = new GiangVienLopHocPhan_DTO(
                         giangVien_dto,
                         lichHocTH.getGiangVienLopHocPhan().getLopHocPhan().getMaLopHocPhan(),
                         loaiLichHoc,
                         lichHocTH.getViTri(),
                         lichHocTH.getLichHoc(),
-                        List.of(lichHocTH_dto),
+                        lichHocTHDtoList,
                         lichHocTH.getGiangVienLopHocPhan().getThoiGian()
                 );
             }
@@ -201,6 +209,9 @@ public class DKHPController {
     private ResponseEntity<?> taoBangDiem(@RequestBody BangDiem bangDiem) {
         try {
             BangDiem bangDiemAddToDB = bangDiemService.taoBangDiem(bangDiem);
+            LopHocPhan lopHocPhan = lopHocPhanRepository.findById(bangDiemAddToDB.getLopHocPhan().getMaLopHocPhan()).get();
+            lopHocPhan.setSoLuongDaDangKy(lopHocPhan.getSoLuongDaDangKy() + 1);
+            lopHocPhanRepository.save(lopHocPhan);
             BangDiem_DTO bangDiem_dto = new BangDiem_DTO(
                     bangDiemAddToDB.getDiemGK(),
                     bangDiemAddToDB.getDiemChuyenCan(),
@@ -223,5 +234,129 @@ public class DKHPController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi tạo bảng điểm!");
         }
+    }
+
+    @GetMapping("/getLHPDaDK")
+    private ResponseEntity<?> getLopHPSauKhiDK(@RequestParam long mssv, @RequestParam String kiHoc) {
+        List<BangDiem> bangDiemList = bangDiemService.getLHPSauKhiDkMH(mssv, kiHoc);
+        if (!bangDiemList.isEmpty()) {
+            List<LopHocPhan_DTO> lopHocPhanDtoList = new ArrayList<>();
+            for (BangDiem bangDiem : bangDiemList) {
+                MonHoc_DTO monHoc_dto = new MonHoc_DTO(
+                        bangDiem.getLopHocPhan().getMonHoc().getMaMonHoc(),
+                        bangDiem.getLopHocPhan().getMonHoc().getTenMonHoc()
+                );
+                String trangThaiLop = "";
+                switch (bangDiem.getLopHocPhan().getTrangThaiLop().getValue()) {
+                    case 0 -> trangThaiLop += "Đã khóa";
+                    case 1 -> trangThaiLop += "Chờ sinh viên đăng ký";
+                }
+                LopHocPhan_DTO lopHocPhan_dto = new LopHocPhan_DTO(
+                        bangDiem.getLopHocPhan().getMaLopHocPhan(),
+                        bangDiem.getLopHocPhan().getTenLopHocPhan(),
+                        bangDiem.getLopHocPhan().getSoLuongToiDa(),
+                        trangThaiLop,
+                        bangDiem.getLopHocPhan().getKiHoc(),
+                        monHoc_dto,
+                        bangDiem.getLopHocPhan().getHocPhiTCTH(),
+                        bangDiem.getLopHocPhan().getHocPhiTCLT(),
+                        bangDiem.getLopHocPhan().getSoTinChiTH(),
+                        bangDiem.getLopHocPhan().getSoTinChiLT(),
+                        bangDiem.getLopHocPhan().getSoLuongDaDangKy(),
+                        bangDiem.getNgayDangKy(),
+                        bangDiem.getNhomTH()
+                );
+                lopHocPhanDtoList.add(lopHocPhan_dto);
+            }
+            return ResponseEntity.ok(lopHocPhanDtoList);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy môn học đã đăng ký!");
+    }
+
+    @GetMapping("/getCTK")
+    private ResponseEntity<?> getCTKOfStudent(@RequestParam long mssv) {
+        List<MonHocChuongTrinhKhung> monHocChuongTrinhKhungList = monHocCTKService.findChuongTrinhKhung(mssv);
+        if (!monHocChuongTrinhKhungList.isEmpty()) {
+            List<MonHocCTK_DTO> monHocCTKDtoList = new ArrayList<>();
+            for (MonHocChuongTrinhKhung monHocChuongTrinhKhung : monHocChuongTrinhKhungList) {
+                MonHoc_DTO monHoc_dto = new MonHoc_DTO(
+                        monHocChuongTrinhKhung.getMonHoc().getMaMonHoc(),
+                        monHocChuongTrinhKhung.getMonHoc().getTenMonHoc()
+                );
+//                for(MonHocTienQuyet monHocTienQuyet : monHocChuongTrinhKhung.getMonHoc().getMonHocTienQuyets()){
+//                    System.out.println("Môn học tiên quyết: " + monHocTienQuyet);
+//                }
+                BangDiem bangDiem = new BangDiem();
+                Optional<BangDiem> bangDiemOptional = bangDiemRepository.findBangDiemBySinhVien_Mssv(mssv);
+                if (bangDiemOptional.isPresent()) {
+                    bangDiem = bangDiemOptional.get();
+                }
+                String trangThai = "";
+                if (bangDiem.getTrangThai() != null) {
+                    switch (bangDiem.getTrangThai().getValue()) {
+                        case 0 -> trangThai += "Đạt";
+                        case 1 -> trangThai += "Không đạt";
+                    }
+                }
+
+                MonHocCTK_DTO monHocCTK_dto = new MonHocCTK_DTO(
+                        monHoc_dto,
+                        monHocChuongTrinhKhung.getHocKy(),
+                        null,
+                        monHocChuongTrinhKhung.getSoTinChiLyThuyet(),
+                        monHocChuongTrinhKhung.getSoTinChiThucHanh(),
+                        trangThai
+                );
+                monHocCTKDtoList.add(monHocCTK_dto);
+            }
+            return ResponseEntity.ok(monHocCTKDtoList);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy chương trình khung của sinh viên!");
+    }
+
+    @GetMapping("/getLichHoc")
+    private ResponseEntity<?> getLichHoc(@RequestParam long mssv) {
+        List<GiangVienLopHocPhan> giangVienLopHocPhanList = giangVienLopHocPhanService.getLichHoc(mssv);
+        if (!giangVienLopHocPhanList.isEmpty()) {
+            List<GiangVienLopHocPhan_DTO> giangVienLopHocPhan_dtoList = new ArrayList<>();
+            for (GiangVienLopHocPhan giangVienLopHocPhan : giangVienLopHocPhanList) {
+                MonHoc_DTO monHoc_dto = new MonHoc_DTO(
+                        giangVienLopHocPhan.getLopHocPhan().getMonHoc().getMaMonHoc(),
+                        giangVienLopHocPhan.getLopHocPhan().getMonHoc().getTenMonHoc()
+                );
+                GiangVien_DTO giangVien_dto = new GiangVien_DTO(
+                        giangVienLopHocPhan.getGiangVien().getMaGiangVien(),
+                        giangVienLopHocPhan.getGiangVien().getTenGiangVien()
+                );
+                String loaiLichHoc = "";
+                switch (giangVienLopHocPhan.getLoaiLichHoc().getValue()) {
+                    case 0 -> loaiLichHoc += "LT";
+                    case 1 -> loaiLichHoc += "TH";
+                }
+                List<LichHocTH_DTO> lichHocTHDtoList = new ArrayList<>();
+                for (int i = 0; i < giangVienLopHocPhan.getLichHocTHList().size(); i++) {
+                    LichHocTH lichHocTH = giangVienLopHocPhan.getLichHocTHList().get(i);
+                    LichHocTH_DTO lichHocTH_dto = new LichHocTH_DTO(
+                            lichHocTH.getMaLichHocTH(),
+                            lichHocTH.getTenNhomLichHocTH(),
+                            lichHocTH.getViTri(),
+                            lichHocTH.getLichHoc()
+                    );
+                    lichHocTHDtoList.add(lichHocTH_dto);
+                }
+                GiangVienLopHocPhan_DTO giangVienLopHocPhan_dto = new GiangVienLopHocPhan_DTO(
+                        giangVien_dto,
+                        giangVienLopHocPhan.getLopHocPhan().getMaLopHocPhan(),
+                        loaiLichHoc,
+                        giangVienLopHocPhan.getViTri(),
+                        giangVienLopHocPhan.getLichHocLT(),
+                        lichHocTHDtoList,
+                        giangVienLopHocPhan.getThoiGian()
+                );
+                giangVienLopHocPhan_dtoList.add(giangVienLopHocPhan_dto);
+            }
+            return ResponseEntity.ok(giangVienLopHocPhan_dtoList);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy lịch học!");
     }
 }

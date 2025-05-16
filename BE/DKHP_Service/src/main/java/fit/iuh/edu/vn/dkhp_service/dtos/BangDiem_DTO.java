@@ -33,4 +33,9 @@ public class BangDiem_DTO {
     private String nhomTH;
     private long maSinhVien;
     private long maLopHocPhan;
+
+    public BangDiem_DTO(LocalDateTime ngayDangKy, String nhomTH) {
+        this.ngayDangKy = ngayDangKy;
+        this.nhomTH = nhomTH;
+    }
 }
