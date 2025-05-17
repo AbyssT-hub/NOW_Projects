@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
 public class BangDiem_DTO {
@@ -33,4 +33,23 @@ public class BangDiem_DTO {
     private String nhomTH;
     private long maSinhVien;
     private long maLopHocPhan;
+
+    public BangDiem_DTO(double diemGK, double diemChuyenCan, double diemTK, double diemTH, double diemCK, double diemTongKet, double diemThang4, String diemChu, String xepLoai, String ghiChu, TrangThai trangThai, LocalDateTime ngayDangKy, TrangThaiHocPhi trangThaiHocPhi, String nhomTH, long maSinhVien, long maLopHocPhan) {
+        this.diemGK = diemGK;
+        this.diemChuyenCan = diemChuyenCan;
+        this.diemTK = diemTK;
+        this.diemTH = diemTH;
+        this.diemCK = diemCK;
+        this.diemTongKet = diemTongKet;
+        this.diemThang4 = diemThang4;
+        this.diemChu = diemChu;
+        this.xepLoai = xepLoai;
+        this.ghiChu = ghiChu;
+        this.trangThai = trangThai;
+        this.ngayDangKy = ngayDangKy;
+        this.trangThaiHocPhi = trangThaiHocPhi;
+        this.nhomTH = nhomTH;
+        this.maSinhVien = maSinhVien;
+        this.maLopHocPhan = maLopHocPhan;
+    }
 }

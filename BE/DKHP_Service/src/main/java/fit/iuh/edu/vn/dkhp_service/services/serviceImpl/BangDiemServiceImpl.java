@@ -8,6 +8,8 @@ import fit.iuh.edu.vn.dkhp_service.services.BangDiemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BangDiemServiceImpl implements BangDiemService {
@@ -27,5 +29,10 @@ public class BangDiemServiceImpl implements BangDiemService {
         } catch (Exception e) {
             throw new Exception("Lỗi khi lưu bảng điểm: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<BangDiem> getLHPSauKhiDkMH(long mssv, String kiHoc) {
+        return bangDiemRepository.getLHPSauKhiDkMH(mssv, kiHoc);
     }
 }

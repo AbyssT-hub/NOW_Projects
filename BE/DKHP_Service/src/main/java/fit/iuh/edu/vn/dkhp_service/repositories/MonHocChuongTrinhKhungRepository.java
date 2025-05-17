@@ -22,4 +22,15 @@ public interface MonHocChuongTrinhKhungRepository extends JpaRepository<MonHocCh
             "                       where bd.sinhVien.mssv = ?1)\n "
     )
     List<MonHocChuongTrinhKhung> findMonHocChuongTrinhKhungByMssv(long mssv);
+
+    @Query("select distinct mhctk from SinhVien sv \n" +
+            " join LopHocDanhNghia lhdn on lhdn.maLopHocDanhNghia = sv.lopHocDanhNghia.maLopHocDanhNghia \n" +
+            " join KhoaHoc kh on kh.maKhoaHoc = lhdn.khoaHoc.maKhoaHoc \n" +
+            " join ChuongTrinhKhung ctk on ctk.nganhHoc.maNganhHoc = lhdn.nganhHoc.maNganhHoc \n" +
+            " join MonHocChuongTrinhKhung mhctk on mhctk.chuongTrinhKhung.maChuongTrinhKhung = ctk.maChuongTrinhKhung \n" +
+            " join MonHoc mh on mh.maMonHoc = mhctk.monHoc.maMonHoc \n" +
+            " join LopHocPhan lhp on lhp.monHoc.maMonHoc = mh.maMonHoc \n" +
+            " left join MonHocTienQuyet mhtq on mhtq.monHoc.maMonHoc = mh.maMonHoc  " +
+            " where sv.mssv = ?1")
+    List<MonHocChuongTrinhKhung> findChuongTrinhKhung(long mssv);
 }

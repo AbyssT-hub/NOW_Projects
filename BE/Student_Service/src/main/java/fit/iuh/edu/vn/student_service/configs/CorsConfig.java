@@ -1,3 +1,4 @@
+// File: src/main/java/fit/iuh/edu/vn/student_service/configs/CorsConfig.java
 package fit.iuh.edu.vn.student_service.configs;
 
 import org.springframework.context.annotation.Bean;
@@ -9,17 +10,16 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("GET");
-        config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
-
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

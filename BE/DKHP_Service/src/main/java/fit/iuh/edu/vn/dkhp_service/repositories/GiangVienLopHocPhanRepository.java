@@ -14,4 +14,10 @@ public interface GiangVienLopHocPhanRepository extends JpaRepository<GiangVienLo
             " join LichHocTH  lhth on lhth.giangVienLopHocPhan.lopHocPhan.maLopHocPhan = gvlhp.lopHocPhan.maLopHocPhan\n" +
             " where gvlhp.lopHocPhan.maLopHocPhan = ?1")
     List<LichHocTH> findGiangVienLopHocPhanAndLichHocTH(long maLopHocPhan);
+
+    @Query("select gvlhp from BangDiem bd \n" +
+            " join LopHocPhan lhp on lhp.maLopHocPhan = bd.lopHocPhan.maLopHocPhan \n" +
+            " join GiangVienLopHocPhan gvlhp on gvlhp.lopHocPhan.maLopHocPhan = lhp.maLopHocPhan \n" +
+            " where bd.sinhVien.mssv = ?1")
+    List<GiangVienLopHocPhan> getLichHoc(long mssv);
 }

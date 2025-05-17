@@ -31,7 +31,7 @@ public class DataSampleConfig {
     private final SinhVienRepository sinhVienRepository;
     private final LichHocTHRepository lichHocTHRepository;
 
-    //    @Bean
+    @Bean
     CommandLineRunner test() {
         return args -> {
             List<MonHocChuongTrinhKhung> monHocChuongTrinhKhungs = monHocChuongTrinhKhungRepository.findMonHocChuongTrinhKhungByMssv(20111601);
@@ -41,7 +41,7 @@ public class DataSampleConfig {
         };
     }
 
-    //            @Bean
+    @Bean
     CommandLineRunner initDatabase() {
         return args -> {
             // insert Khoa

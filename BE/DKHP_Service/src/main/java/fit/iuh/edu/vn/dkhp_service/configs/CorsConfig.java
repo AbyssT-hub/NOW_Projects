@@ -1,16 +1,15 @@
-// File: src/main/java/fit/iuh/edu/vn/apigateway_service/configs/CorsConfig.java
-package fit.iuh.edu.vn.apigateway_service.configs;
+package fit.iuh.edu.vn.dkhp_service.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsWebFilter;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
     @Bean
-    public CorsWebFilter corsWebFilter() {
+    public CorsFilter corsFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.addAllowedOrigin("http://localhost:3000");
         corsConfig.addAllowedMethod("GET");
@@ -23,6 +22,6 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
 
-        return new CorsWebFilter(source);
+        return new CorsFilter(source);
     }
 }

@@ -12,6 +12,11 @@ public class MonHoc_DTO {
     private long maKhoa;
     private long maMonTQ;
 
+    public MonHoc_DTO(long maMonHoc, String tenMonHoc) {
+        this.maMonHoc = maMonHoc;
+        this.tenMonHoc = tenMonHoc;
+    }
+
     public MonHoc_DTO(long maMonHoc, String tenMonHoc, long maKhoa) {
         this.maMonHoc = maMonHoc;
         this.tenMonHoc = tenMonHoc;

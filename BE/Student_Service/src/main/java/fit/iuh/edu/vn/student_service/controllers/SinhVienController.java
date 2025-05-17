@@ -72,48 +72,4 @@ public class SinhVienController {
         }
     }
 
-    @GetMapping("/getAllStudents")
-    private ResponseEntity<List<SinhVien_DTO>> getAllStudents() {
-        List<SinhVien> sinhViens = sinhVienService.findAllSinhVien();
-        List<SinhVien_DTO> sinhVienDTOs = new ArrayList<>();
-
-        for (SinhVien sinhVien : sinhViens) {
-            LopHocDanhNghia lopHocDanhNghia = sinhVien.getLopHocDanhNghia();
-            String bacDaoTao = "";
-            if (lopHocDanhNghia != null) {
-                switch (lopHocDanhNghia.getBacDaoTao().getValue()) {
-                    case 0 -> bacDaoTao = "Cao Đẳng";
-                    case 1 -> bacDaoTao = "Đại Học";
-                    case 2 -> bacDaoTao = "Thạc Sỹ";
-                    case 3 -> bacDaoTao = "Liên Thông";
-                }
-            }
-            SinhVien_DTO sinhVienDTO = new SinhVien_DTO(
-                    sinhVien.getMssv(),
-                    sinhVien.getMatKhau(),
-                    sinhVien.getHoTen(),
-                    sinhVien.getNgaySinh(),
-                    sinhVien.getDiaChi(),
-                    sinhVien.getQueQuan(),
-                    sinhVien.getSoDienThoai(),
-                    sinhVien.getGioiTinh(),
-                    sinhVien.getAnhDaiDien(),
-                    sinhVien.getEmail(),
-                    sinhVien.getLoaiSinhVien() != null ? sinhVien.getLoaiSinhVien().getMaLoaiSV() : 0,
-                    lopHocDanhNghia != null ? lopHocDanhNghia.getMaLopHocDanhNghia() : null,
-                    lopHocDanhNghia != null ? lopHocDanhNghia.getTenLopHocDanhNghia() : null,
-                    bacDaoTao,
-                    lopHocDanhNghia != null ? lopHocDanhNghia.getLoaiHinhDaoTao() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getKhoaHoc() != null ? lopHocDanhNghia.getKhoaHoc().getMaKhoaHoc() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getKhoaHoc() != null ? lopHocDanhNghia.getKhoaHoc().getTenKhoaHoc() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getKhoaHoc() != null ? lopHocDanhNghia.getKhoaHoc().getNamBatDauHoc() : 0,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getNganhHoc() != null ? lopHocDanhNghia.getNganhHoc().getMaNganhHoc() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getNganhHoc() != null ? lopHocDanhNghia.getNganhHoc().getTenNganhHoc() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getNganhHoc() != null && lopHocDanhNghia.getNganhHoc().getKhoa() != null ? lopHocDanhNghia.getNganhHoc().getKhoa().getMaKhoa() : null,
-                    lopHocDanhNghia != null && lopHocDanhNghia.getNganhHoc() != null && lopHocDanhNghia.getNganhHoc().getKhoa() != null ? lopHocDanhNghia.getNganhHoc().getKhoa().getTenKhoa() : null
-            );
-            sinhVienDTOs.add(sinhVienDTO);
-        }
-        return ResponseEntity.ok(sinhVienDTOs);
-    }
 }
