@@ -5,22 +5,24 @@ package fit.iuh.edu.vn.apigateway_service.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 @Configuration
 public class CorsConfig {
     @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*"); // Cho phép tất cả các nguồn
-        config.addAllowedMethod("*"); // Cho phép tất cả phương thức
-        config.addAllowedHeader("*"); // Cho phép tất cả tiêu đề
-        source.registerCorsConfiguration("/**", config); // Áp dụng cho tất cả các đường dẫn
+        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000")); // hoặc "*" nếu cho tất cả
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        return new CorsFilter(source);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsWebFilter(source);
     }
 //    @Bean
 //    public CorsWebFilter corsWebFilter() {
