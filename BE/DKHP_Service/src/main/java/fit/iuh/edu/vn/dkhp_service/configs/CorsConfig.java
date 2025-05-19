@@ -19,6 +19,7 @@ public class CorsConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("OPTIONS");  // Thêm OPTIONS cho preflight request
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

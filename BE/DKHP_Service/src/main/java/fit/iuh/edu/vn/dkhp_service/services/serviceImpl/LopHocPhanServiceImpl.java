@@ -21,8 +21,8 @@ public class LopHocPhanServiceImpl implements LopHocPhanService {
     }
 
     @Override
-    public Optional<LopHocPhan> findLopHocPhanByMsssAndKihoc(long mssv, String kihoc) {
-        return lopHocPhanRepository.findLopHocPhanByMsssAndKihoc(mssv, kihoc);
+    public Optional<LopHocPhan> findLopHocPhanByMsssAndKihoc(long mssv, String kiHoc) {
+        return lopHocPhanRepository.findLopHocPhanByMsssAndKihoc(mssv, kiHoc);
     }
 
 

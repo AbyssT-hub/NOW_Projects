@@ -41,7 +41,7 @@ public class DataSampleConfig {
         };
     }
 
-                @Bean
+             //   @Bean
     CommandLineRunner initDatabase() {
         return args -> {
             // insert Khoa
@@ -231,7 +231,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan1 = new LopHocPhan("DHKTPM16C",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     1200000,
                     900000,
                     1,
@@ -242,7 +242,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan6 = new LopHocPhan("DHKTPM16A",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     1200000,
                     900000,
                     1,
@@ -253,7 +253,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan7 = new LopHocPhan("DHKTPM16B",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     1200000,
                     900000,
                     1,
@@ -264,7 +264,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan2 = new LopHocPhan("DHCTDL17A",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     800000,
                     900000,
                     1,
@@ -275,7 +275,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan3 = new LopHocPhan("DHKTPM16D",
                     60,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     1200000,
                     300000,
                     1,
@@ -286,7 +286,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan4 = new LopHocPhan("DHKTPM16E",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     1500000,
                     500000,
                     1,
@@ -297,7 +297,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan5 = new LopHocPhan("DHKTPM16F",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK3 (2023-2024)",
+                    "HK3 (2024-2025)",
                     900000,
                     500000,
                     1,
@@ -308,7 +308,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan8 = new LopHocPhan("DHKTPM16F",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK2 (2023-2024)",
+                    "HK3 (2024-2025)",
                     900000,
                     500000,
                     1,
@@ -319,7 +319,7 @@ public class DataSampleConfig {
             LopHocPhan lopHocPhan9 = new LopHocPhan("DHKTPM16F",
                     80,
                     TrangThaiLop.CHO_SINH_VIEN_DANG_KY,
-                    "HK2 (2023-2024)",
+                    "HK3 (2024-2025)",
                     900000,
                     500000,
                     1,
