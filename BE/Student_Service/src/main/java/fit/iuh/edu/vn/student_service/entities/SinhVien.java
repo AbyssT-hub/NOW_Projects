@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class
-SinhVien {
+public class SinhVien {
     @Id
     @Column(name = "mssv")
     private long mssv;

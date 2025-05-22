@@ -9,6 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MonHocChuongTrinhKhungRepository extends JpaRepository<MonHocChuongTrinhKhung, MonHocChuongTrinhKhungPKs> {
+    /**
+     * Tìm các môn học mà sinh viên chưa học trong chương trình khung
+     *
+     * @param mssv
+     * @return danh sách môn học chưa học trong chương trình khung
+     */
     @Query("select distinct mhctk from SinhVien sv \n" +
             " join LopHocDanhNghia lhdn on sv.lopHocDanhNghia.maLopHocDanhNghia = lhdn.maLopHocDanhNghia \n " +
             " join KhoaHoc kh on kh.maKhoaHoc = lhdn.khoaHoc.maKhoaHoc \n" +

@@ -19,8 +19,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class DKHPController {
 
     private final MonHocCTKService monHocCTKService;
@@ -274,7 +274,7 @@ public class DKHPController {
     }
 
     @GetMapping("/getCTK")
-    private ResponseEntity<?> getCTKOfStudent(@RequestParam long mssv) {
+    public ResponseEntity<?> getCTKOfStudent(@RequestParam long mssv) {
         List<MonHocChuongTrinhKhung> monHocChuongTrinhKhungList = monHocCTKService.findChuongTrinhKhung(mssv);
         if (!monHocChuongTrinhKhungList.isEmpty()) {
             List<MonHocCTK_DTO> monHocCTKDtoList = new ArrayList<>();
@@ -283,20 +283,25 @@ public class DKHPController {
                         monHocChuongTrinhKhung.getMonHoc().getMaMonHoc(),
                         monHocChuongTrinhKhung.getMonHoc().getTenMonHoc()
                 );
-//                for(MonHocTienQuyet monHocTienQuyet : monHocChuongTrinhKhung.getMonHoc().getMonHocTienQuyets()){
-//                    System.out.println("Môn học tiên quyết: " + monHocTienQuyet);
-//                }
-                BangDiem bangDiem = new BangDiem();
-                Optional<BangDiem> bangDiemOptional = bangDiemRepository.findBangDiemBySinhVien_Mssv(mssv);
-                if (bangDiemOptional.isPresent()) {
-                    bangDiem = bangDiemOptional.get();
-                }
+
                 String trangThai = "";
-                if (bangDiem.getTrangThai() != null) {
-                    switch (bangDiem.getTrangThai().getValue()) {
-                        case 0 -> trangThai += "Đạt";
-                        case 1 -> trangThai += "Không đạt";
+                // Lấy điểm từng môn học cho sinh viên
+                Optional<BangDiem> bangDiemOptional = bangDiemRepository
+                        .findBangDiemBySinhVien_MssvAndLopHocPhan_MonHoc_MaMonHoc(mssv, monHocChuongTrinhKhung.getMonHoc().getMaMonHoc());
+
+                if (bangDiemOptional.isPresent()) {
+                    BangDiem bangDiem = bangDiemOptional.get();
+                    if (bangDiem.getTrangThai() != null) {
+                        switch (bangDiem.getTrangThai().getValue()) {
+                            case 0 -> trangThai = "Đạt";
+                            case 1 -> trangThai = "Không đạt";
+                            default -> trangThai = "Chưa xác định";
+                        }
+                    } else {
+                        trangThai = "Chưa có trạng thái";
                     }
+                } else {
+                    trangThai = "Chưa có điểm";
                 }
 
                 MonHocCTK_DTO monHocCTK_dto = new MonHocCTK_DTO(
@@ -314,49 +319,56 @@ public class DKHPController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy chương trình khung của sinh viên!");
     }
 
+
     @GetMapping("/getLichHoc")
-    private ResponseEntity<?> getLichHoc(@RequestParam long mssv) {
-        List<GiangVienLopHocPhan> giangVienLopHocPhanList = giangVienLopHocPhanService.getLichHoc(mssv);
-        if (!giangVienLopHocPhanList.isEmpty()) {
-            List<GiangVienLopHocPhan_DTO> giangVienLopHocPhan_dtoList = new ArrayList<>();
-            for (GiangVienLopHocPhan giangVienLopHocPhan : giangVienLopHocPhanList) {
+    private ResponseEntity<?> getLichHoc(@RequestParam long mssv, @RequestParam String kiHoc ) {
+        List<BangDiem> bangDiemList = bangDiemService.getLHPSauKhiDkMH(mssv, kiHoc);
+        if (!bangDiemList.isEmpty()) {
+            List<LopHocPhan_DTO> lopHocPhanDtoList = new ArrayList<>();
+            for (BangDiem bangDiem : bangDiemList) {
+                LopHocPhan lopHocPhan = bangDiem.getLopHocPhan();
+                MonHoc monHoc = lopHocPhan.getMonHoc();
+
+                // Dữ liệu môn học
                 MonHoc_DTO monHoc_dto = new MonHoc_DTO(
-                        giangVienLopHocPhan.getLopHocPhan().getMonHoc().getMaMonHoc(),
-                        giangVienLopHocPhan.getLopHocPhan().getMonHoc().getTenMonHoc()
+                        monHoc.getMaMonHoc(),
+                        monHoc.getTenMonHoc(),
+                        monHoc.getKhoa() != null ? monHoc.getKhoa().getMaKhoa() : null
                 );
-                GiangVien_DTO giangVien_dto = new GiangVien_DTO(
-                        giangVienLopHocPhan.getGiangVien().getMaGiangVien(),
-                        giangVienLopHocPhan.getGiangVien().getTenGiangVien()
-                );
-                String loaiLichHoc = "";
-                switch (giangVienLopHocPhan.getLoaiLichHoc().getValue()) {
-                    case 0 -> loaiLichHoc += "LT";
-                    case 1 -> loaiLichHoc += "TH";
+
+                // Trạng thái lớp học phần
+                String trangThaiLop = "";
+                switch (lopHocPhan.getTrangThaiLop().getValue()) {
+                    case 0 -> trangThaiLop = "Đã khóa";
+                    case 1 -> trangThaiLop = "Chờ sinh viên đăng ký";
+                    default -> trangThaiLop = "Không xác định";
                 }
-                List<LichHocTH_DTO> lichHocTHDtoList = new ArrayList<>();
-                for (int i = 0; i < giangVienLopHocPhan.getLichHocTHList().size(); i++) {
-                    LichHocTH lichHocTH = giangVienLopHocPhan.getLichHocTHList().get(i);
-                    LichHocTH_DTO lichHocTH_dto = new LichHocTH_DTO(
-                            lichHocTH.getMaLichHocTH(),
-                            lichHocTH.getTenNhomLichHocTH(),
-                            lichHocTH.getViTri(),
-                            lichHocTH.getLichHoc()
-                    );
-                    lichHocTHDtoList.add(lichHocTH_dto);
-                }
-                GiangVienLopHocPhan_DTO giangVienLopHocPhan_dto = new GiangVienLopHocPhan_DTO(
-                        giangVien_dto,
-                        giangVienLopHocPhan.getLopHocPhan().getMaLopHocPhan(),
-                        loaiLichHoc,
-                        giangVienLopHocPhan.getViTri(),
-                        giangVienLopHocPhan.getLichHocLT(),
-                        lichHocTHDtoList,
-                        giangVienLopHocPhan.getThoiGian()
+
+                // Lấy thời gian đăng ký nếu có
+                LocalDateTime ngayDangKy = bangDiem.getNgayDangKy();
+
+                // Tạo DTO lớp học phần
+                LopHocPhan_DTO lopHocPhanDto = new LopHocPhan_DTO(
+                        lopHocPhan.getMaLopHocPhan(),
+                        lopHocPhan.getTenLopHocPhan(),
+                        lopHocPhan.getSoLuongToiDa(),
+                        trangThaiLop,
+                        lopHocPhan.getKiHoc(),
+                        monHoc_dto,
+                        lopHocPhan.getHocPhiTCTH(),
+                        lopHocPhan.getHocPhiTCLT(),
+                        lopHocPhan.getSoTinChiTH(),
+                        lopHocPhan.getSoTinChiLT(),
+                        lopHocPhan.getSoLuongDaDangKy(),
+                        ngayDangKy
                 );
-                giangVienLopHocPhan_dtoList.add(giangVienLopHocPhan_dto);
+
+                lopHocPhanDtoList.add(lopHocPhanDto);
             }
-            return ResponseEntity.ok(giangVienLopHocPhan_dtoList);
+            return ResponseEntity.ok(lopHocPhanDtoList);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy lịch học!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy lớp học phần đã đăng ký.");
     }
+
+
 }

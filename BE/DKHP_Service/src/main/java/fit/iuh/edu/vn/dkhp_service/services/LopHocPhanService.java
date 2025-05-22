@@ -8,5 +8,7 @@ import java.util.Optional;
 
 public interface LopHocPhanService {
     List<LopHocPhan> findLopHocPhanByMaMHAndKiHoc(long maMonHoc, String kiHoc);
-    Optional<LopHocPhan> findLopHocPhanByMsssAndKihoc(long mssv, String kihoc);
+    Optional<LopHocPhan> findLopHocPhanByMsssAndKihoc(long mssv, String kiHoc);
+
+
 }
