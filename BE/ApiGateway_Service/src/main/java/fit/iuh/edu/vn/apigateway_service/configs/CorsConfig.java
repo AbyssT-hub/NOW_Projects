@@ -15,13 +15,13 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*"); // Cho phép tất cả các nguồn
-        config.addAllowedMethod("*"); // Cho phép tất cả phương thức
-        config.addAllowedHeader("*"); // Cho phép tất cả tiêu đề
-        source.registerCorsConfiguration("/**", config); // Áp dụng cho tất cả các đường dẫn
-
+        config.addAllowedOrigin("http://localhost:3000"); // ✅ Chỉ định frontend URL
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 //    @Bean
 //    public CorsWebFilter corsWebFilter() {
 //        CorsConfiguration config = new CorsConfiguration();

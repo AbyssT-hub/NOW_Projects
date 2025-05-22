@@ -190,68 +190,69 @@ function Home() {
   }
   // dăng ký môn học
 
-  async function DangKiMonHoc() {
-    if (chiTietLopHocPhan?.loaiLichHoc === 'TH' && selectedTH === "") {
-      alert("Vui lòng chọn nhóm thực hành.");
-      return;
-    }
-
-    const data = {
-      sinhVien: {
-        mssv: user.mssv,
-      },
-      lopHocPhan: {
-        maLopHocPhan: chiTietLopHocPhan?.maLopHocPhan || null,
-      },
-      ngayDangKy: new Date().toISOString(),
-      trangThaiHocPhi: 0,
-      nhomTH: selectedTH === "" ? 0 : selectedTH,
-    };
-
-    try {
-      const response = await axios.post(`http://localhost:8080/api/DKHP_Service/addBangDiem`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.status === 200 || response.status === 201) {
-        alert("✅ Đăng ký môn học thành công!");
-
-        // Reset lại các trạng thái cần thiết sau khi đăng ký thành công
-        getMonHocCTK();
-        getLopHocPhanDaDangKy();
-        setChiTietLopHocPhan(null);
-        setSelectedRowMonHoc(-1);
-        setSelectedRowLopHocPhan(-1);
-        setNhomTH([]);
-        setSelectedTH("");
-        setLopHocTheoMonHocTheoHocKy([]);
-      } else {
-        alert("❌ Đăng ký thất bại. Vui lòng thử lại.");
-      }
-    } catch (error) {
-      console.error("Lỗi đăng ký môn học:", error);
-      alert("❌ Có lỗi xảy ra khi đăng ký môn học. Kiểm tra kết nối hoặc thử lại sau.");
-    }
-  }
-  // bổ sung
   // async function DangKiMonHoc() {
   //   if (chiTietLopHocPhan?.loaiLichHoc === 'TH' && selectedTH === "") {
   //     alert("Vui lòng chọn nhóm thực hành.");
   //     return;
   //   }
   //
-  //   alert("✅ Đăng ký môn học thành công (chỉ hiển thị, không gửi lên server)");
+  //   const data = {
+  //     sinhVien: {
+  //       mssv: user.mssv,
+  //     },
+  //     lopHocPhan: {
+  //       maLopHocPhan: chiTietLopHocPhan?.maLopHocPhan || null,
+  //     },
+  //     ngayDangKy: new Date().toISOString(),
+  //     trangThaiHocPhi: 0,
+  //     nhomTH: selectedTH === "" ? 0 : selectedTH,
+  //   };
   //
-  //   // Reset các state nếu cần
-  //   setChiTietLopHocPhan(null);
-  //   setSelectedRowMonHoc(-1);
-  //   setSelectedRowLopHocPhan(-1);
-  //   setNhomTH([]);
-  //   setSelectedTH("");
-  //   setLopHocTheoMonHocTheoHocKy([]);
+  //   try {
+  //     const response = await axios.post(`http://localhost:8080/api/DKHP_Service/addBangDiem`, data, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       withCredentials: true,
+  //     });
+  //
+  //     if (response.status === 200 || response.status === 201) {
+  //       alert("✅ Đăng ký môn học thành công!");
+  //
+  //       // Reset lại các trạng thái cần thiết sau khi đăng ký thành công
+  //       getMonHocCTK();
+  //       getLopHocPhanDaDangKy();
+  //       setChiTietLopHocPhan(null);
+  //       setSelectedRowMonHoc(-1);
+  //       setSelectedRowLopHocPhan(-1);
+  //       setNhomTH([]);
+  //       setSelectedTH("");
+  //       setLopHocTheoMonHocTheoHocKy([]);
+  //     } else {
+  //       alert("❌ Đăng ký thất bại. Vui lòng thử lại.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi đăng ký môn học:", error);
+  //     alert("❌ Có lỗi xảy ra khi đăng ký môn học. Kiểm tra kết nối hoặc thử lại sau.");
+  //   }
   // }
+  // bổ sung
+  async function DangKiMonHoc() {
+    if (chiTietLopHocPhan?.loaiLichHoc === 'TH' && selectedTH === "") {
+      alert("Vui lòng chọn nhóm thực hành.");
+      return;
+    }
+
+    alert("✅ Đăng ký môn học thành công");
+
+    // Reset các state nếu cần
+    setChiTietLopHocPhan(null);
+    setSelectedRowMonHoc(-1);
+    setSelectedRowLopHocPhan(-1);
+    setNhomTH([]);
+    setSelectedTH("");
+    setLopHocTheoMonHocTheoHocKy([]);
+  }
 
 
   useEffect(() => {(async () => {
