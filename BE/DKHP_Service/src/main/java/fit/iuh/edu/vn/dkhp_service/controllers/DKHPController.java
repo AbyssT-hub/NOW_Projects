@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequiredArgsConstructor
 public class DKHPController {
 
@@ -239,40 +239,39 @@ public class DKHPController {
     @GetMapping("/getLHPDaDK")
     private ResponseEntity<?> getLopHPSauKhiDK(@RequestParam long mssv, @RequestParam String kiHoc) {
         List<BangDiem> bangDiemList = bangDiemService.getLHPSauKhiDkMH(mssv, kiHoc);
-        if (!bangDiemList.isEmpty()) {
-            List<LopHocPhan_DTO> lopHocPhanDtoList = new ArrayList<>();
-            for (BangDiem bangDiem : bangDiemList) {
-                MonHoc_DTO monHoc_dto = new MonHoc_DTO(
-                        bangDiem.getLopHocPhan().getMonHoc().getMaMonHoc(),
-                        bangDiem.getLopHocPhan().getMonHoc().getTenMonHoc()
-                );
-                String trangThaiLop = "";
-                switch (bangDiem.getLopHocPhan().getTrangThaiLop().getValue()) {
-                    case 0 -> trangThaiLop += "Đã khóa";
-                    case 1 -> trangThaiLop += "Chờ sinh viên đăng ký";
-                }
-                LopHocPhan_DTO lopHocPhan_dto = new LopHocPhan_DTO(
-                        bangDiem.getLopHocPhan().getMaLopHocPhan(),
-                        bangDiem.getLopHocPhan().getTenLopHocPhan(),
-                        bangDiem.getLopHocPhan().getSoLuongToiDa(),
-                        trangThaiLop,
-                        bangDiem.getLopHocPhan().getKiHoc(),
-                        monHoc_dto,
-                        bangDiem.getLopHocPhan().getHocPhiTCTH(),
-                        bangDiem.getLopHocPhan().getHocPhiTCLT(),
-                        bangDiem.getLopHocPhan().getSoTinChiTH(),
-                        bangDiem.getLopHocPhan().getSoTinChiLT(),
-                        bangDiem.getLopHocPhan().getSoLuongDaDangKy(),
-                        bangDiem.getNgayDangKy(),
-                        bangDiem.getNhomTH()
-                );
-                lopHocPhanDtoList.add(lopHocPhan_dto);
-            }
-            return ResponseEntity.ok(lopHocPhanDtoList);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lấy môn học đã đăng ký!");
-    }
+        List<LopHocPhan_DTO> lopHocPhanDtoList = new ArrayList<>();
 
+        for (BangDiem bangDiem : bangDiemList) {
+            MonHoc_DTO monHoc_dto = new MonHoc_DTO(
+                    bangDiem.getLopHocPhan().getMonHoc().getMaMonHoc(),
+                    bangDiem.getLopHocPhan().getMonHoc().getTenMonHoc()
+            );
+            String trangThaiLop = switch (bangDiem.getLopHocPhan().getTrangThaiLop().getValue()) {
+                case 0 -> "Đã khóa";
+                case 1 -> "Chờ sinh viên đăng ký";
+                default -> "Không xác định";
+            };
+
+            LopHocPhan_DTO lopHocPhan_dto = new LopHocPhan_DTO(
+                    bangDiem.getLopHocPhan().getMaLopHocPhan(),
+                    bangDiem.getLopHocPhan().getTenLopHocPhan(),
+                    bangDiem.getLopHocPhan().getSoLuongToiDa(),
+                    trangThaiLop,
+                    bangDiem.getLopHocPhan().getKiHoc(),
+                    monHoc_dto,
+                    bangDiem.getLopHocPhan().getHocPhiTCTH(),
+                    bangDiem.getLopHocPhan().getHocPhiTCLT(),
+                    bangDiem.getLopHocPhan().getSoTinChiTH(),
+                    bangDiem.getLopHocPhan().getSoTinChiLT(),
+                    bangDiem.getLopHocPhan().getSoLuongDaDangKy(),
+                    bangDiem.getNgayDangKy(),
+                    bangDiem.getNhomTH()
+            );
+            lopHocPhanDtoList.add(lopHocPhan_dto);
+        }
+
+        return ResponseEntity.ok(lopHocPhanDtoList); // Trả về danh sách, có thể rỗng
+    }
     @GetMapping("/getCTK")
     public ResponseEntity<?> getCTKOfStudent(@RequestParam long mssv) {
         List<MonHocChuongTrinhKhung> monHocChuongTrinhKhungList = monHocCTKService.findChuongTrinhKhung(mssv);

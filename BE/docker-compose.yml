@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  api_gateway:
+    build:
+      context: ./ApiGateway_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dkhp_service
+      - auth_service
+      - student_service
+    restart: unless-stopped
+    networks:
+      - dknp-network
+
+  dkhp_service:
+    build:
+      context: ./DKHP_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - dkhp_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://dkhp_db:3306/dkhp_service?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=sapassword
+    networks:
+      - dknp-network
+
+  auth_service:
+    image: ${DOCKER_REGISTRY-}auth_service:${TAG:-latest}
+    build:
+      context: ./Auth_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - auth_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://auth_db:3306/auth_service?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=sapassword
+    networks:
+      - dknp-network
+
+  student_service:
+    image: ${DOCKER_REGISTRY-}student_service:${TAG:-latest}
+    build:
+      context: ./Student_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - sv_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://sv_db:3306/sv_service?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=sapassword
+    networks:
+      - dknp-network
+
+  dkhp_db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=sapassword
+      - MYSQL_DATABASE=dkhp_service
+    ports:
+      - "5434:3306"
+    volumes:
+      - dkhp_db-data:/var/lib/mysql
+    networks:
+      - dknp-network
+
+  auth_db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=sapassword
+      - MYSQL_DATABASE=auth_service
+    ports:
+      - "5435:3306"
+    volumes:
+      - auth_db-data:/var/lib/mysql
+    networks:
+      - dknp-network
+  sv_db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=sapassword
+      - MYSQL_DATABASE=sv_service
+    ports:
+      - "5433:3306"
+    volumes:
+      - sv_db-data:/var/lib/mysql
+    networks:
+      - dknp-network
+volumes:
+  dkhp_db-data:
+  sv_db-data:
+  auth_db-data:
+
+networks:
+  dknp-network:
+    driver: bridge

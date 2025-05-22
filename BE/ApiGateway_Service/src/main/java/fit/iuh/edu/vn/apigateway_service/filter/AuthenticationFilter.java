@@ -14,12 +14,10 @@ import java.io.ObjectInputFilter;
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
-    @Autowired
+//    @Autowired
     private RouteValidator validator;
-    @Autowired
+//    @Autowired
     private JwtUtil jwtUtil;
-    @Autowired
-    private RestTemplate template;
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -40,7 +38,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
                 try {
 //                    //REST call to AUTH service
-                    template.getForObject("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
+//                    template.getForObject("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
 
                 } catch (Exception e) {
